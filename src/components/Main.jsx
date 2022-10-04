@@ -1,6 +1,7 @@
 import { Component } from "react"
 import { Container, Row, Col, Carousel, ListGroup } from "react-bootstrap"
 import menuItems from "../data/menu.json"
+import DishComments from "./DishComments"
 import ReservationForm from "./ReservationForm"
 
 class Main extends Component {
@@ -42,15 +43,7 @@ class Main extends Component {
         </Row>
         <Row className="justify-content-center">
           <Col md={6}>
-            {this.state.selectedItem && (
-              <ListGroup>
-                {this.state.selectedItem.comments.map(comment => (
-                  <ListGroup.Item key={comment.id}>
-                    {comment.comment}
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            )}
+            <DishComments selectedDish={this.state.selectedItem} />
           </Col>
         </Row>
         <Row className="justify-content-center">
