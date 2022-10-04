@@ -1,6 +1,7 @@
 import { Component } from "react"
 import { Container, Row, Col, Carousel, ListGroup } from "react-bootstrap"
 import menuItems from "../data/menu.json"
+import ReservationForm from "./ReservationForm"
 
 class Main extends Component {
   constructor() {
@@ -49,6 +50,9 @@ class Main extends Component {
               </ListGroup>
             )}
           </Col>
+        </Row>
+        <Row className="justify-content-center">
+          <ReservationForm />
         </Row>
       </Container>
     )
