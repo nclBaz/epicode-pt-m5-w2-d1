@@ -19,7 +19,7 @@ class Main extends Component {
     }
 
     const createCarouselItem = menuItem => (
-      <Carousel.Item>
+      <Carousel.Item key={menuItem.id}>
         <img
           onClick={() => onItemClicked(menuItem)}
           className="d-block w-100"
@@ -45,7 +45,9 @@ class Main extends Component {
             {this.state.selectedItem && (
               <ListGroup>
                 {this.state.selectedItem.comments.map(comment => (
-                  <ListGroup.Item>{comment.comment}</ListGroup.Item>
+                  <ListGroup.Item key={comment.id}>
+                    {comment.comment}
+                  </ListGroup.Item>
                 ))}
               </ListGroup>
             )}

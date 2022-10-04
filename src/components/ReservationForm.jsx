@@ -31,11 +31,57 @@ class ReservationForm extends Component {
     })
   }
 
+  handleSubmit = async event => {
+    // event is the form submission event, your function will get it automatically!
+    // Default behaviour of browsers is to reload the page during submit of forms
+    // To prevent that we could use the method event.preventDefault()
+    event.preventDefault()
+
+    // I don't need to collect one by one the values from the form inputs! I already have all of them saved in the state!
+
+    console.log("CURRENT STATE: ", this.state)
+
+    // ******************* FETCH *************************
+    // HTTP Requests they need to be asynchronous operations --> we are going to use Promises
+
+    try {
+      const url = "https://striveschool-api.herokuapp.com/api/reservation"
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.state.reservation),
+      })
+
+      if (response.ok) {
+        alert("Reservation saved!")
+        // clean the form
+        this.setState({
+          reservation: {
+            name: "",
+            phone: "",
+            numberOfPeople: 1,
+            dateTime: "",
+            smoking: false,
+            specialRequests: "",
+          },
+        })
+      } else {
+        const { message } = await response.json()
+        alert(message)
+      }
+    } catch (error) {
+      alert("An error occurred!")
+    }
+  }
+
   render() {
     return (
       <div>
         <h2>Book your table!</h2>
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>What's your name?</Form.Label>
             <Form.Control
@@ -43,8 +89,6 @@ class ReservationForm extends Component {
               placeholder="Enter username"
               value={this.state.reservation.name}
               onChange={event => {
-                console.log("CURRENT INPUT VALUE: ", event.target.value)
-
                 this.handleChange("name", event.target.value)
               }}
             />
@@ -56,7 +100,6 @@ class ReservationForm extends Component {
               placeholder="Enter phone number"
               value={this.state.reservation.phone}
               onChange={event => {
-                console.log("CURRENT INPUT VALUE: ", event.target.value)
                 this.handleChange("phone", event.target.value)
               }}
             />
@@ -67,7 +110,6 @@ class ReservationForm extends Component {
               as="select"
               value={this.state.reservation.numberOfPeople}
               onChange={event => {
-                console.log("CURRENT INPUT VALUE: ", event.target.value)
                 this.handleChange("numberOfPeople", event.target.value)
               }}
             >
@@ -84,7 +126,6 @@ class ReservationForm extends Component {
               type="datetime-local"
               value={this.state.reservation.dateTime}
               onChange={event => {
-                console.log("CURRENT INPUT VALUE: ", event.target.value)
                 this.handleChange("dateTime", event.target.value)
               }}
             />
@@ -95,7 +136,6 @@ class ReservationForm extends Component {
               label="Do you smoke?"
               checked={this.state.reservation.smoking}
               onChange={event => {
-                console.log("CURRENT INPUT VALUE: ", event.target.checked)
                 this.handleChange("smoking", event.target.checked)
               }}
             />
@@ -108,7 +148,6 @@ class ReservationForm extends Component {
               placeholder="Write here your special requests!"
               value={this.state.reservation.specialRequests}
               onChange={event => {
-                console.log("CURRENT INPUT VALUE: ", event.target.value)
                 this.handleChange("specialRequests", event.target.value)
               }}
             />
